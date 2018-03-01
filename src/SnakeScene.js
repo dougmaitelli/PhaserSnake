@@ -52,9 +52,9 @@ class SnakeScene extends Phaser.Scene {
       this.snake.direction === Snake.RIGHT
     ) {
       if (this.upKey.isDown) {
-        this.snake.direction = Snake.UP;
+        this.snake.nextDirection = Snake.UP;
       } else if (this.downKey.isDown) {
-        this.snake.direction = Snake.DOWN;
+        this.snake.nextDirection = Snake.DOWN;
       }
     }
 
@@ -63,9 +63,9 @@ class SnakeScene extends Phaser.Scene {
       this.snake.direction === Snake.DOWN
     ) {
       if (this.leftKey.isDown) {
-        this.snake.direction = Snake.LEFT;
+        this.snake.nextDirection = Snake.LEFT;
       } else if (this.rightKey.isDown) {
-        this.snake.direction = Snake.RIGHT;
+        this.snake.nextDirection = Snake.RIGHT;
       }
     }
 
@@ -101,11 +101,13 @@ class SnakeScene extends Phaser.Scene {
         this.goals[i].destroy();
         this.goals.splice(i, 1);
 
-        this.snake.grow();
+        this.snake.grow(1);
         this.addGoal();
       }
     }
   }
+
+  checkBoundaries() {}
 }
 
 export default SnakeScene;

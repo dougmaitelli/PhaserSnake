@@ -8,25 +8,28 @@ class Snake {
     this.y = config.y;
     config.scene.add.existing(this);
 
-    this.direction = Snake.RIGHT;
+    this.direction = this.nextDirection = Snake.RIGHT;
     this.body = [];
+    this.toGrow = 0;
 
     this.buildBody();
   }
 
   buildBody() {
-    for (let i = 0; i < 3; i++) {
-      let bodyPart = new SnakeBlock({
-        scene: this.scene,
-        key: "snake",
-        x: this.x - 40 * i,
-        y: this.y
-      });
-      this.body.push(bodyPart);
-    }
+    let bodyPart = new SnakeBlock({
+      scene: this.scene,
+      key: "snake",
+      x: this.x,
+      y: this.y
+    });
+    this.body.push(bodyPart);
+
+    this.grow(2);
   }
 
   move() {
+    this.direction = this.nextDirection;
+
     if (this.direction === Snake.LEFT) {
       this.x -= GameOptions.tileSize;
     } else if (this.direction === Snake.RIGHT) {
@@ -52,16 +55,22 @@ class Snake {
         duration: GameOptions.gameSpeed
       });
     }
+
+    if (this.toGrow > 0) {
+      let bodyPart = new SnakeBlock({
+        scene: this.scene,
+        key: "snake",
+        x: this.body[this.body.length - 1].x,
+        y: this.body[this.body.length - 1].y
+      });
+      this.body.push(bodyPart);
+
+      this.toGrow--;
+    }
   }
 
-  grow() {
-    let bodyPart = new SnakeBlock({
-      scene: this.scene,
-      key: "snake",
-      x: this.body[this.body.length - 1].x - GameOptions.tileSize,
-      y: this.body[this.body.length - 1].y
-    });
-    this.body.push(bodyPart);
+  grow(toGrow) {
+    this.toGrow += toGrow;
   }
 }
 
