@@ -8,6 +8,7 @@ let config = {
   parent: "content",
   width: GameOptions.tileSize * GameOptions.tileBlocks,
   height: GameOptions.tileSize * GameOptions.tileBlocks,
+  backgroundColor: "#202226",
   scene: [SnakeScene]
 };
 
@@ -30,7 +31,7 @@ let resize = () => {
 };
 
 window.onload = () => {
-  new Phaser.Game(config);
+  var game = new Phaser.Game(config);
 
   resize();
   window.addEventListener("resize", resize, false);

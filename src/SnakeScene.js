@@ -24,6 +24,7 @@ class SnakeScene extends Phaser.Scene {
       x: GameOptions.tileSize / 2,
       y: GameOptions.tileSize / 2
     });
+    this.nextDirection = this.snake.direction;
 
     this.goals = [];
 
@@ -52,9 +53,9 @@ class SnakeScene extends Phaser.Scene {
       this.snake.direction === Snake.RIGHT
     ) {
       if (this.upKey.isDown) {
-        this.snake.nextDirection = Snake.UP;
+        this.nextDirection = Snake.UP;
       } else if (this.downKey.isDown) {
-        this.snake.nextDirection = Snake.DOWN;
+        this.nextDirection = Snake.DOWN;
       }
     }
 
@@ -63,16 +64,20 @@ class SnakeScene extends Phaser.Scene {
       this.snake.direction === Snake.DOWN
     ) {
       if (this.leftKey.isDown) {
-        this.snake.nextDirection = Snake.LEFT;
+        this.nextDirection = Snake.LEFT;
       } else if (this.rightKey.isDown) {
-        this.snake.nextDirection = Snake.RIGHT;
+        this.nextDirection = Snake.RIGHT;
       }
     }
 
-    if (deltaTime > 500) {
+    if (deltaTime > 1000 / GameOptions.gameSpeed) {
       this.lastTime = time;
 
-      this.snake.move();
+      this.snake.direction = this.nextDirection;
+
+      if (!this.checkBoundaries()) {
+        this.snake.move();
+      }
 
       this.checkGoals();
     }
@@ -107,7 +112,19 @@ class SnakeScene extends Phaser.Scene {
     }
   }
 
-  checkBoundaries() {}
+  checkBoundaries() {
+    return (
+      (this.snake.direction === Snake.LEFT &&
+        this.snake.x === GameOptions.tileSize / 2) ||
+      (this.snake.direction === Snake.UP &&
+        this.snake.y === GameOptions.tileSize / 2) ||
+      (this.snake.direction === Snake.RIGHT &&
+        this.snake.x ===
+          (GameOptions.tileBlocks - 0.5) * GameOptions.tileSize) ||
+      (this.snake.direction === Snake.DOWN &&
+        this.snake.y === (GameOptions.tileBlocks - 0.5) * GameOptions.tileSize)
+    );
+  }
 }
 
 export default SnakeScene;

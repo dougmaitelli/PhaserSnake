@@ -8,7 +8,7 @@ class Snake {
     this.y = config.y;
     config.scene.add.existing(this);
 
-    this.direction = this.nextDirection = Snake.RIGHT;
+    this.direction = Snake.RIGHT;
     this.body = [];
     this.toGrow = 0;
 
@@ -28,8 +28,6 @@ class Snake {
   }
 
   move() {
-    this.direction = this.nextDirection;
-
     if (this.direction === Snake.LEFT) {
       this.x -= GameOptions.tileSize;
     } else if (this.direction === Snake.RIGHT) {
@@ -44,7 +42,7 @@ class Snake {
       targets: this.body[0],
       x: this.x,
       y: this.y,
-      duration: GameOptions.gameSpeed
+      duration: GameOptions.animationSpeed
     });
 
     for (let i = 1; i < this.body.length; i++) {
@@ -52,7 +50,7 @@ class Snake {
         targets: this.body[i],
         x: this.body[i - 1].x,
         y: this.body[i - 1].y,
-        duration: GameOptions.gameSpeed
+        duration: GameOptions.animationSpeed
       });
     }
 
