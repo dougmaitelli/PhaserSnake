@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import Tone from "tone";
 
 import GameOptions from "./GameOptions";
 import Snake from "./Snake";
@@ -18,6 +19,8 @@ class SnakeScene extends Phaser.Scene {
 
   create() {
     this.lastTime = 0;
+
+    this.synth = new Tone.Synth().toMaster();
 
     this.snake = new Snake({
       scene: this,
@@ -45,7 +48,7 @@ class SnakeScene extends Phaser.Scene {
     this.addGoal();
   }
 
-  update(time, delta) {
+  update(time) {
     let deltaTime = time - this.lastTime;
 
     if (
@@ -108,6 +111,8 @@ class SnakeScene extends Phaser.Scene {
 
         this.snake.grow(1);
         this.addGoal();
+
+        this.playTone();
       }
     }
   }
@@ -123,6 +128,20 @@ class SnakeScene extends Phaser.Scene {
           (GameOptions.tileBlocks - 0.5) * GameOptions.tileSize) ||
       (this.snake.direction === Snake.DOWN &&
         this.snake.y === (GameOptions.tileBlocks - 0.5) * GameOptions.tileSize)
+    );
+  }
+
+  playTone() {
+    this.synth.triggerAttackRelease("B1", "8n");
+    this.synth.triggerAttackRelease(
+      "B2",
+      "8n",
+      Tone.now() + this.synth.toSeconds("8n")
+    );
+    this.synth.triggerAttackRelease(
+      "B1",
+      "8n",
+      Tone.now() + this.synth.toSeconds("16n")
     );
   }
 }
