@@ -2,6 +2,7 @@ var path = require("path");
 var webpack = require("webpack");
 
 const { CleanWebpackPlugin }  = require("clean-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
@@ -26,7 +27,7 @@ module.exports = {
     ]
   },
   output: {
-    publicPath: "/",
+    publicPath: "./",
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js"
   },
@@ -41,6 +42,9 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: "./src/index.html"
-    })
+    }),
+    new CopyPlugin([
+      { from: 'assets', to: 'assets' }
+    ]),
   ]
 };
