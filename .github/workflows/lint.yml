@@ -1,0 +1,26 @@
+name: Lint
+
+on: [push]
+
+jobs:
+  run-linters:
+  
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Node.js and NPM
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run linters
+      uses: samuelmeuli/lint-action@v0.2
+      with:
+        github_token: ${{ secrets.github_token }}
+        eslint: true
+        prettier: true
+        prettier_extensions: js,json,md,yml
