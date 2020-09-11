@@ -1,14 +1,13 @@
 import Phaser from "phaser";
 import Tone from "tone";
-
 import GameOptions from "./GameOptions";
-import Snake from "./Snake";
 import GoalBlock from "./GoalBlock";
+import Snake from "./Snake";
 
 class SnakeScene extends Phaser.Scene {
   constructor() {
     super({
-      key: "SnakeScene"
+      key: "SnakeScene",
     });
   }
 
@@ -25,7 +24,7 @@ class SnakeScene extends Phaser.Scene {
     this.snake = new Snake({
       scene: this,
       x: GameOptions.tileSize / 2,
-      y: GameOptions.tileSize / 2
+      y: GameOptions.tileSize / 2,
     });
     this.nextDirection = this.snake.direction;
 
@@ -94,7 +93,7 @@ class SnakeScene extends Phaser.Scene {
       scene: this,
       key: "goal",
       x: (randX + 0.5) * GameOptions.tileSize,
-      y: (randY + 0.5) * GameOptions.tileSize
+      y: (randY + 0.5) * GameOptions.tileSize,
     });
 
     this.goals.push(goalBlock);
